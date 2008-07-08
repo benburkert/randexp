@@ -1,6 +1,7 @@
 h1. randexp
-bq.    by Ben Burkert
-bq.    http://github.com/benburkert/randexp
+
+bq. by Ben Burkert
+http://github.com/benburkert/randexp
 
 h2. DESCRIPTION:
 
