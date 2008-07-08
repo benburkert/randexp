@@ -36,8 +36,25 @@ end
 ##############################################################################
 # rSpec & rcov
 ##############################################################################
-desc "Run all specs"
-Spec::Rake::SpecTask.new("specs") do |t|
+desc "Run all unit specs"
+Spec::Rake::SpecTask.new("specs:unit") do |t|
   t.spec_opts = ["--format", "specdoc", "--colour"]
-  t.spec_files = Dir["spec/**/*_spec.rb"].sort
+  t.spec_files = Dir["spec/unit/**/*_spec.rb"].sort
+  t.rcov = true
+  t.rcov_opts << '--sort' << 'coverage' << '--sort-reverse'
+  t.rcov_opts << '--only-uncovered'
+  t.rcov_opts << '--output coverage/unit'
+  
 end
+
+desc "Run all integration specs"
+Spec::Rake::SpecTask.new("specs:integration") do |t|
+  t.spec_opts = ["--format", "specdoc", "--colour"]
+  t.spec_files = Dir["spec/integration/**/*_spec.rb"].sort
+  t.rcov = true
+  t.rcov_opts << '--sort' << 'coverage' << '--sort-reverse'
+  t.rcov_opts << '--only-uncovered'
+  t.rcov_opts << '--output coverage/integration'
+end
+
+task :specs => ['specs:unit', 'specs:integration']

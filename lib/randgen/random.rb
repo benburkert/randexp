@@ -1,9 +1,9 @@
-class Random
+class Randgen
   WORDS_PER_SENTENCE = 3..20
   SENTENCES_PER_PARAGRAPH = 3..8
   
   def self.bool
-    [true, false].pick
+    ['true', 'false'].pick
   end
 
   def self.lchar
@@ -24,6 +24,10 @@ class Random
 
   def self.digit
     ('0'..'9').to_a.pick
+  end
+
+  def self.alpha_numeric
+    [char, digit].pick
   end
 
   def self.word(options = {})
