@@ -112,4 +112,22 @@ describe "#{'*' * 80}\nRegression Specs:" do
       /(\d{3}-)?\d{3}-\d{4}/.gen.should =~ /(\d{3}-)?\d{3}-\d{4}/
     end
   end
+
+  it "/[:phone_number:]/              => /(\\d{3}-)?\\d{3}-\\d{4}/" do
+    100.times do
+      /[:phone_number:]/.gen.should =~ /(\d{3}-)?\d{3}-\d{4}/
+    end
+  end
+
+  it "/[:phone_number:]{7}/           => /\\d{3}-\\d{4}/" do
+    100.times do
+      /[:phone_number:]{7}/.gen.should =~ /\d{3}-\d{4}/
+    end
+  end
+
+  it "/[:phone_number:]{10}/          => /\\d{3}-\\d{3}-\\d{4}/" do
+    100.times do
+      /[:phone_number:]{10}/.gen.should =~ /\d{3}-\d{3}-\d{4}/
+    end
+  end
 end

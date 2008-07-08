@@ -87,4 +87,24 @@ describe Randgen do
       end
     end
   end
+
+  describe ".phone_number" do
+    it "should match /(\\d{3}-)?\\d{3}-\\d{4}/ when no length is given" do
+      100.times do
+        Randgen.phone_number =~ /(\d{3}-)?\d{3}-\d{4}/
+      end
+    end
+
+    it "should match /\\d{3}-\\d{4}/ when the length is 7" do
+      100.times do
+        Randgen.phone_number(:length => 7) =~ /\d{3}-\d{4}/
+      end
+    end
+
+    it "should match /\\d{3}-\\d{3}-\\d{4}/ when the length is 10" do
+      100.times do
+        Randgen.phone_number(:length => 10) =~ /\d{3}-\d{3}-\d{4}/
+      end
+    end
+  end
 end

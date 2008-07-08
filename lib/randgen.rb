@@ -41,4 +41,12 @@ class Randgen
   def self.paragraph(options = {})
     ((options[:length] || SENTENCES_PER_PARAGRAPH.pick).of { sentence } * ".  ") + "."
   end
+
+  def self.phone_number(options = {})    
+    case options[:length]
+    when 7  then  /\d{3}-\d{4}/.gen
+    when 10 then  /\d{3}-\d{3}-\d{4}/.gen
+    else          /(\d{3}-)?\d{3}-\d{4}/.gen
+    end
+  end
 end
