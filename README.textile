@@ -1,11 +1,10 @@
 h1. randexp
 
 bq. by Ben Burkert
-http://github.com/benburkert/randexp
 
 h2. DESCRIPTION:
 
-andexp makes it easy to generate random string from most regular expressions.
+randexp makes it easy to generate random string from most regular expressions.
 
 h2. REQUIREMENTS:
  
@@ -20,9 +19,12 @@ h2. USAGE:
 
 randexp adds the #generate (or #gen, for short) method to the Regexp class,
 which generates a 'random' string that will match your regular expression.
-
-  /abc|def/.gen
-    # => "def"
+<pre>
+<code>
+  >> /abc|def/.gen
+      # => "def"
+</code>
+</pre>
 
 h2. Valid Regexp's
 
