@@ -1,0 +1,107 @@
+h1. randexp
+bq.    by Ben Burkert
+bq.    http://github.com/benburkert/randexp
+
+h2. DESCRIPTION:
+
+andexp makes it easy to generate random string from most regular expressions.
+
+h2. REQUIREMENTS:
+ 
+* none!
+ 
+h2. INSTALL:
+ 
+  $ gem sources -a http://gems.github.com/ (you only need to do this once)
+  $ gem install benburkert-randexp
+
+h2. USAGE:
+
+randexp adds the #generate (or #gen, for short) method to the Regexp class,
+which generates a 'random' string that will match your regular expression.
+
+  /abc|def/.gen
+    # => "def"
+
+h2. Valid Regexp's
+
+randexp can only generate matching string from simple regular expression.
+Except for a few circumstances, wildcards are generally not allowed in the
+regular expression.  is pretty domain specific, so trying to guess when to
+terminate a random pattern would produce unhelpful data:
+
+<pre>
+<code>
+  >> /Aa{3}h*!/.gen
+      # => RuntimeError: Sorry, "h*" is too vague, try setting a range: "h{0,3}"
+  >> /Aa{3}h{3,15}!/.gen
+      => "Aaaahhhhh!"
+
+  >> /(never gonna (give you up|let you down), )*/.gen
+      => RuntimeError: Sorry, "(...)*" is too vague, try setting a range: "(...){0, 3}"
+  >> /(never gonna (give you up|let you down), ){3,5}/.gen
+      => "never gonna give you up, never gonna let you down, never gonna give you up, never gonna give you up, "
+</code>
+</pre>
+
+The exception being word characters (\w), which generate a random word from the Dictionary class.
+
+<pre>
+<code>
+  >> /\w+/.gen
+      => "groveling"
+</code>
+</pre>
+
+h3. Primitives & Complex matches
+
+The single character matchers supported are words(\w), whitespace(\s), and digits(\d).
+
+<pre>
+<code>
+  >> /\d{50}/.gen
+      => "50315410741096763188525493528315906035878741451037"
+</code>
+</pre>
+
+When a multiplicity constraint is placed on a word character, a word with the valid length is generated.
+
+<pre>
+<code>
+  >> /\w{10}/.gen  # a word with 10 letters
+      => "Chaucerism"
+
+  >> /\w{5,15}/.gen
+      => "cabalistic"
+  </code>
+  </pre>
+
+Complex matchers use the [:...:] syntax within the regular expression.
+
+<pre>
+<code>
+  >> /[:sentence:]/.gen
+      => "Nonhearer demetricize toppiece filicic possessedness rhodizite zoomagnetism earwigginess steady"
+</code>
+</pre>
+
+Complex matchers can also be added by extending the Randgen class.
+
+<pre>
+<code>
+  class Randgen
+    def self.serial_number(options = {})
+      /XX\d{4}-\w-\d{5}/.gen
+    end
+  end
+
+  >> /[:serial_number:]/.gen
+      => "XX3770-M-33114"
+</code>
+</pre>
+
+h3. Dictionary
+
+The Dictionary loads the local users' words file, allowing randomly generated words to be chosen from
+thousands of entries to the words file.  Words are mapped by their length to allow words to be randomly
+chosen based on size.

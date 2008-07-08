@@ -1,6 +1,4 @@
 class Randexp
-  VERSION = "0.1.0"
-
   attr_accessor :sexp
 
   def initialize(source)

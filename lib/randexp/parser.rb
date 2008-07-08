@@ -17,6 +17,12 @@ class Randexp
       when /(.*)\\([wsdc])\{(\d+)\,(\d+)\}$/        then union(parse($1), quantify(random($2), ($3.to_i)..($4.to_i)))
       when /(.*)\\([wsdc])\{(\d+)\}$/               then union(parse($1), quantify(random($2), $3.to_i))
       when /(.*)\\([wsdc])$/                        then union(parse($1), random($2))
+      when /\((.*)\)(\*|\*\?|\+|\+\?|\?)$/          then quantify(parse($1), $2.to_sym)
+      when /\((.*)\)\{(\d+)\,(\d+)\}$/              then quantify(parse($1), ($2.to_i)..($3.to_i))
+      when /\((.*)\)\{(\d+)\}$/                     then quantify(parse($1), $3.to_i)
+      when /(.*)(.|\s)(\*|\*\?|\+|\+\?|\?)$/        then union(parse($1), quantify(literal($2), $3.to_sym))
+      when /(.*)(.|\s)\{(\d+)\,(\d+)\}$/            then union(parse($1), quantify(literal($2), ($3.to_i)..($4.to_i)))
+      when /(.*)(.|\s)\{(\d+)\}$/                   then union(parse($1), quantify(literal($2), $3.to_i))
       when /(.*)(.|\s)$/                            then union(parse($1), literal($2))
       else nil
       end

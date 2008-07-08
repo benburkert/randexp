@@ -1,0 +1,5 @@
+== 0.1.0 "Very Beta" 2008-07-08
+* Initial version of randexp!
+* Has support for very simple regular expressions.
+* Randgen has limited methods.
+* Dictionary is reading from the local words file.

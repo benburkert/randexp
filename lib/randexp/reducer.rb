@@ -26,8 +26,8 @@ class Randexp
       when :'?'         then ([''] + cell).pick * ''
       when :+, :'+?'    then raise "Sorry, \"#{cell * ''}+\" is too vague, try setting a range: \"#{cell * ''}{1,3}\""
       when :*, :'*?'    then raise "Sorry, \"#{cell * ''}*\" is too vague, try setting a range: \"#{cell * ''}{0,3}\""
-      when Range        then quant.pick.of { cell * '' } * ''
-      when Integer      then quant.of { cell * '' } * ''
+      when Range        then quantity.pick.of { cell * '' } * ''
+      when Integer      then quantity.of { cell * '' } * ''
       when nil          then cell * ''
       end
     end

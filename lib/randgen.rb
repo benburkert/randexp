@@ -2,31 +2,31 @@ class Randgen
   WORDS_PER_SENTENCE = 3..20
   SENTENCES_PER_PARAGRAPH = 3..8
   
-  def self.bool
+  def self.bool(options = {})
     ['true', 'false'].pick
   end
 
-  def self.lchar
+  def self.lchar(options = {})
     ('a'..'z').to_a.pick
   end
 
-  def self.uchar
+  def self.uchar(options = {})
     ('A'..'Z').to_a.pick
   end
 
-  def self.char
+  def self.char(options = {})
     [lchar, uchar].pick
   end
 
-  def self.whitespace
+  def self.whitespace(options = {})
     ["\t", "\n", "\r", "\f"].pick
   end
 
-  def self.digit
+  def self.digit(options = {})
     ('0'..'9').to_a.pick
   end
 
-  def self.alpha_numeric
+  def self.alpha_numeric(options = {})
     [char, digit].pick
   end
 
