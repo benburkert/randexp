@@ -7,7 +7,7 @@ describe Randexp do
     end
   end
 
-  describe "reduce" do
+  describe ".reduce" do
     it "should not change the original sexp in any way" do
       @randexp = Randexp.new("def")
       @sexp = @randexp.sexp

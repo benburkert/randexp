@@ -47,14 +47,14 @@ Spec::Rake::SpecTask.new("specs:unit") do |t|
   
 end
 
-desc "Run all integration specs"
-Spec::Rake::SpecTask.new("specs:integration") do |t|
+desc "Run all regression specs"
+Spec::Rake::SpecTask.new("specs:regression") do |t|
   t.spec_opts = ["--format", "specdoc", "--colour"]
-  t.spec_files = Dir["spec/integration/**/*_spec.rb"].sort
+  t.spec_files = Dir["spec/regression/**/*_spec.rb"].sort
   t.rcov = true
   t.rcov_opts << '--sort' << 'coverage' << '--sort-reverse'
   t.rcov_opts << '--only-uncovered'
   t.rcov_opts << '--output coverage/integration'
 end
 
-task :specs => ['specs:unit', 'specs:integration']
+task :specs => ['specs:unit', 'specs:regression']

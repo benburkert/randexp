@@ -1,6 +1,6 @@
 require File.dirname(__FILE__) + '/../spec_helper'
 
-describe "#{'*' * 80}\nIntegration Specs:" do
+describe "#{'*' * 80}\nRegression Specs:" do
   it "/abcd/                          => 'abcd'" do
     100.times do
       /abcd/.gen.should == 'abcd'
@@ -31,7 +31,7 @@ describe "#{'*' * 80}\nIntegration Specs:" do
     end
   end
 
-  it "/(abc)def(ghi)                  => 'abcdefghi'" do
+  it "/(abc)def(ghi)/                 => 'abcdefghi'" do
     100.times do
       /(abc)def(ghi)/.gen.should == 'abcdefghi'
     end
@@ -61,19 +61,19 @@ describe "#{'*' * 80}\nIntegration Specs:" do
     end
   end
 
-  it "/\\w{2,5}/                       => /\\w{2,5}" do
+  it "/\\w{2,5}/                       => /\\w{2,5}/" do
     100.times do
       /\w{2,5}/.gen.should =~ /\w{2,5}/
     end
   end
 
-  it "/\\w{1}/                         => /\\w" do
+  it "/\\w{1}/                         => /\\w/" do
     100.times do
       /\w{1}/.gen.should =~ /\w/
     end
   end
 
-  it "/\\w{4}/                         => /\\w{4}" do
+  it "/\\w{4}/                         => /\\w{4}/" do
     100.times do
       /\w{4}/.gen.should =~ /\w{4}/
     end
@@ -89,13 +89,13 @@ describe "#{'*' * 80}\nIntegration Specs:" do
     /[:bool:]/.gen.should =~ /true|false/
   end
 
-  it "/[:sentence:]                   => /(\w+ )*/" do
+  it "/[:sentence:]/                  => /(\w+ )*/" do
     100.times do
       /[:sentence:]/.gen.should =~ /(\w+ )*/
     end
   end
 
-  it "/[:paragraph:]                  => /(  (\w+ )*\.)*" do
+  it "/[:paragraph:]/                 => /(  (\w+ )*\.)*/" do
     100.times do
       /[:paragraph:]/.gen.should =~ /(\w+ )*/
     end

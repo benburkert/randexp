@@ -15,6 +15,5 @@ end
 require 'core_ext'
 require 'randexp/parser'
 require 'randexp/reducer'
-require 'randgen/random'
-require 'randgen/bizarro'
+require 'randgen'
 require 'dictionary'
