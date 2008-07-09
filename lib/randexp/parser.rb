@@ -23,6 +23,10 @@ class Randexp
       when /(.*)(.|\s)(\*|\*\?|\+|\+\?|\?)$/        then union(parse($1), quantify(literal($2), $3.to_sym))
       when /(.*)(.|\s)\{(\d+)\,(\d+)\}$/            then union(parse($1), quantify(literal($2), ($3.to_i)..($4.to_i)))
       when /(.*)(.|\s)\{(\d+)\}$/                   then union(parse($1), quantify(literal($2), $3.to_i))
+      when /(.*)\\([.\/])(\*|\*\?|\+|\+\?|\?)$/     then union(parse($1), quantify(literal($2), $3.to_sym))
+      when /(.*)\\([.\/])\{(\d+)\,(\d+)\}$/         then union(parse($1), quantify(literal($2), ($3.to_i)..($4.to_i)))
+      when /(.*)\\([.\/])\{(\d+)\}$/                then union(parse($1), quantify(literal($2), $3.to_i))
+      when /(.*)\\([.\/])$/                         then union(parse($1), literal($2))
       when /(.*)(.|\s)$/                            then union(parse($1), literal($2))
       else nil
       end

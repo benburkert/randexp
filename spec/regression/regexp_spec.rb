@@ -130,4 +130,10 @@ describe "#{'*' * 80}\nRegression Specs:" do
       /[:phone_number:]{10}/.gen.should =~ /\d{3}-\d{3}-\d{4}/
     end
   end
+
+  it "/\\w+@\\w+\\.(com|org|net)/     => /\\w+@\\w+\\.(com|org|net)/.gen" do
+    100.times do
+      /\w+@\w+\.(com|org|net)/.gen.should =~ /\w+@\w+\.(com|org|net)/
+    end
+  end
 end

@@ -1,4 +1,4 @@
-randexp
+Randexp
     by Ben Burkert
     http://github.com/benburkert/randexp
 
@@ -17,7 +17,7 @@ andexp makes it easy to generate random string from most regular expressions.
 
 == USAGE:
 
-randexp adds the #generate (or #gen, for short) method to the Regexp class,
+Randexp adds the #generate (or #gen, for short) method to the Regexp class,
 which generates a 'random' string that will match your regular expression.
 
   /abc|def/.gen
@@ -25,7 +25,7 @@ which generates a 'random' string that will match your regular expression.
 
 == Valid Regexp's
 
-randexp can only generate matching string from simple regular expression.
+Randexp can only generate matching string from simple regular expression.
 Except for a few circumstances, wildcards are generally not allowed in the
 regular expression.  is pretty domain specific, so trying to guess when to
 terminate a random pattern would produce unhelpful data:

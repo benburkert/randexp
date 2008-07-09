@@ -76,8 +76,8 @@ When a multiplicity constraint is placed on a word character, a word with the va
 
   >> /\w{5,15}/.gen
       => "cabalistic"
-  </code>
-  </pre>
+</code>
+</pre>
 
 Complex matchers use the [:...:] syntax within the regular expression.
 
