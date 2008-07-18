@@ -1,38 +1,56 @@
-# -*- ruby -*-
-
-require "rake"
-require "rake/clean"
-require "rake/gempackagetask"
-require 'rake/rdoctask'
-require "spec"
+require 'rubygems'
+require 'rake/gempackagetask'
+require 'rubygems/specification'
+require 'date'
 require "spec/rake/spectask"
+require 'rake/rdoctask'
 
-DIR = File.dirname(__FILE__)
-NAME = 'randexp'
-SUMMARY =<<-EOS
-Library for generating random strings.
-EOS
+PROJECT_NAME = "randexp"
+GEM = "randexp"
 GEM_VERSION = "0.1.0"
+AUTHOR = "Ben Burkert"
+EMAIL = "ben@benburkert.com"
+HOMEPAGE = "http://github.com/benburkert/randexp"
+TITLE = "Randexp Gem"
+SUMMARY = "Library for generating random strings."
+FILES = %w(LICENSE README README Rakefile TODO CHANGELOG) + Dir.glob("{lib,spec}/**/*")
+RDOC_FILES = %w(LICENSE README README Rakefile TODO CHANGELOG) + Dir.glob("lib/**/*")
+
+RUBYFORGE_USER = "benburkert"
 
 spec = Gem::Specification.new do |s|
-  s.name = "randexp"
-  s.version = "0.1.0"
-  s.date = "2008-07-08"
-  s.summary = "Library for generating random strings"
-  s.email = "ben@benburkert.com"
-  s.homepage = "http://github.com/benburkert/randexp"
-  s.description = "randexp makes it easy to generate random string from most regular expressions."
+  s.name = GEM
+  s.version = GEM_VERSION
+  s.platform = Gem::Platform::RUBY
   s.has_rdoc = true
-  s.authors = ["Ben Burkert"]
-  s.files       = ["Rakefile", "CHANGELOG", "LICENSE", "README", "lib/randexp.rb", "lib/randgen.rb", "lib/core_ext.rb", "lib/dictionary.rb", "lib/core_ext/array.rb", "lib/core_ext/integer.rb", "lib/core_ext/range.rb", "lib/core_ext/regexp.rb", "lib/randexp/parser.rb", "lib/randexp/reducer.rb"]
-  s.test_files  = ["spec/regression/regexp_spec.rb", "spec/unit/core_ext/regexp_spec.rb", "spec/unit/randexp/parser_spec.rb", "spec/unit/randexp/reducer_spec.rb", "spec/unit/randexp_spec.rb", "spec/unit/randgen_spec.rb", "spec/spec_helper.rb"]
-  s.rdoc_options = ["--main", "README"]
-  s.extra_rdoc_files = ["CHANGELOG", "README"]
-  s.require_path = "lib"
+  s.extra_rdoc_files = ["README", "LICENSE", 'TODO']
+  s.summary = SUMMARY
+  s.description = s.summary
+  s.author = AUTHOR
+  s.email = EMAIL
+  s.homepage = HOMEPAGE
+
+  s.require_path = 'lib'
+  s.autorequire = GEM
+  s.files = FILES
 end
 
 Rake::GemPackageTask.new(spec) do |package|
   package.gem_spec = spec
+  package.need_zip = true
+  package.need_tar = true
+end
+
+desc "install the gem locally"
+task :install => [:package] do
+  sh %{sudo gem install pkg/#{GEM}-#{GEM_VERSION}}
+end
+
+desc "create a gemspec file"
+task :make_spec do
+  File.open("#{GEM}.gemspec", "w") do |file|
+    file.puts spec.to_ruby
+  end
 end
 
 ##############################################################################
@@ -60,3 +78,34 @@ Spec::Rake::SpecTask.new("specs:regression") do |t|
 end
 
 task :specs => ['specs:unit', 'specs:regression']
+
+##############################################################################
+# Documentation
+##############################################################################
+task :doc => "doc:rerdoc"
+namespace :doc do
+
+  Rake::RDocTask.new do |rdoc|
+    rdoc.rdoc_files.add(RDOC_FILES)
+    rdoc.main = 'README'
+    rdoc.title = TITLE
+    rdoc.rdoc_dir = "rdoc"
+    rdoc.options << '--line-numbers' << '--inline-source'
+  end
+
+  desc "rdoc to rubyforge"
+  task :rubyforge => :doc do
+    sh %{chmod -R 755 rdoc}
+    sh %{/usr/bin/scp -r -p rdoc/* #{RUBYFORGE_USER}@rubyforge.org:/var/www/gforge-projects/#{PROJECT_NAME}/#{GEM}}
+  end
+end
+
+##############################################################################
+# release
+##############################################################################
+task :release do
+  sh %{rubyforge add_release #{PROJECT_NAME} #{GEM} "#{GEM_VERSION}" pkg/#{GEM}-#{GEM_VERSION}.gem}
+  %w[zip tgz].each do |ext|
+    sh %{rubyforge add_file #{PROJECT_NAME} #{GEM} "#{GEM_VERSION}" pkg/#{GEM}-#{GEM_VERSION}.#{ext}}
+  end
+end
