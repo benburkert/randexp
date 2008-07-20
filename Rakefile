@@ -7,7 +7,7 @@ require 'rake/rdoctask'
 
 PROJECT_NAME = "randexp"
 GEM = "randexp"
-GEM_VERSION = "0.1.1"
+GEM_VERSION = "0.1.2"
 AUTHOR = "Ben Burkert"
 EMAIL = "ben@benburkert.com"
 HOMEPAGE = "http://github.com/benburkert/randexp"
@@ -103,7 +103,7 @@ end
 ##############################################################################
 # release
 ##############################################################################
-task :release do
+task :release => [:specs, :package, :doc] do
   sh %{rubyforge add_release #{PROJECT_NAME} #{GEM} "#{GEM_VERSION}" pkg/#{GEM}-#{GEM_VERSION}.gem}
   %w[zip tgz].each do |ext|
     sh %{rubyforge add_file #{PROJECT_NAME} #{GEM} "#{GEM_VERSION}" pkg/#{GEM}-#{GEM_VERSION}.#{ext}}

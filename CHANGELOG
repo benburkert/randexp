@@ -1,4 +1,4 @@
-== 0.1.1 "Still Quite Beta"
+== 0.1.1 "Still Quite Beta" 2008-07-20
 * Added Range#of method.
 * Heavy refactoring of the Parser.parse method.
 * Fixed the /\./ bug.
