@@ -149,7 +149,7 @@ describe "#{'*' * 80}\nRegression Specs:" do
     end
   end
 
-  it "/\\w+@\\w+\\.(com|org|net)/       => /\\w+@\\w+\\.(com|org|net)/.gen" do
+  it "/\\w+@\\w+\\.(com|org|net)/        => /\\w+@\\w+\\.(com|org|net)/.gen" do
     100.times do
       /\w+@\w+\.(com|org|net)/.gen.should =~ /\w+@\w+\.(com|org|net)/
     end

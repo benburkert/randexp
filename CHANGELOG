@@ -1,5 +1,7 @@
 == 0.1.1 "Still Quite Beta"
 * Added Range#of method.
+* Heavy refactoring of the Parser.parse method.
+* Fixed the /\./ bug.
 
 == 0.1.0 "Very Beta" 2008-07-08
 * Initial version of randexp!
