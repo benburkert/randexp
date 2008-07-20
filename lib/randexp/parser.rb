@@ -1,39 +1,64 @@
 class Randexp
   class Parser
     def self.parse(source)
+      case
+      when source =~ /^(.*)(\*|\*\?|\+|\+\?|\?)$/ && balanced?($1, $2)
+        parse_quantified($1, $2.to_sym)                                 # ends with *, +, or ?: /(..)?/
+      when source =~ /^(.*)\{(\d+)\,(\d+)\}$/ && balanced?($1, $2)
+        parse_quantified($1, ($2.to_i)..($3.to_i))                      #ends with a range: /(..){..,..}/
+      when source =~ /^(.*)\{(\d+)\}$/ && balanced?($1, $2)
+        parse_quantified($1, $2.to_i)                                   #ends with a range: /..(..){..}/
+      when source =~ /^\((.*)\)\((.*)\)$/ && balanced?($1, $2)
+        union(parse($1), parse($2))                                     #balanced union: /(..)(..)/
+      when source =~ /^(\(.*\))\|(\(.*\))$/ && balanced?($1, $2)
+        intersection(parse($1), parse($2))                              #balanced intersection: /(..)|(..)/
+      when source =~ /^(.*)\|(.*)$/ && balanced?($1, $2)
+        intersection(parse($1), parse($2))                              #implied intersection: /..|../
+      when source =~ /^(.*)\|\((\(.*\))\)$/ && balanced?($1, $2)
+        intersection(parse($1), parse($2))                              #unbalanced intersection: /(..)|((...))/
+      when source =~ /^(.+)(\(.*\))$/ && balanced?($1, $2)
+        union(parse($1), parse($2))                                     #unbalanced union: /...(...)/
+      when source =~ /^\((.*)\)$/ && balanced?($1)
+        union(parse($1))                                                #explicit group: /(..)/
+      when source =~ /^([^()]*)(\(.*\))$/ && balanced?($1, $2)
+        union(parse($1), parse($2))                                     #implied group: /..(..)/
+      when source =~ /^(.*)\[\:(.*)\:\]$/
+        union(parse($1), random($2))                                    #custom random: /[:word:]/
+      when source =~ /^(.*)\\([wsdc])$/
+        union(parse($1), random($2))                                    #reserved random: /..\w/
+      when source =~ /^(.*)\\(.)$/ || source =~ /(.*)(.|\s)$/
+        union(parse($1), literal($2))                                   #end with literal or space: /... /
+      else
+        nil
+      end
+    end
+
+    def self.parse_quantified(source, multiplicity)
       case source
-      when /^\(([^()]*|\(.*\))\)$/                  then union(parse($1))
-      when /(.*)\|(?:(\({2,}.*\){2,}|[^()]*))$/     then intersection(parse($1), parse($2))
-      when /(.*)\|(\(.*\))$/                        then intersection(parse($1), parse($2))
-      when /(.*)\(([^()]*)\)(\*|\*\?|\+|\+\?|\?)$/  then union(parse($1), quantify(parse($2), $3.to_sym))
-      when /(.*)\(([^()]*)\)\{(\d+)\,(\d+)\}$/      then union(parse($1), quantify(parse($2), ($3.to_i)..($4.to_i)))
-      when /(.*)\(([^()]*)\)\{(\d+)\}$/             then union(parse($1), quantify(parse($2), $3.to_i))
-      when /(.*)\(([^()]*)\)$/                      then union(parse($1), parse($2))
-      when /(.*)\[:(\w+):\](\*|\*\?|\+|\+\?|\?)$/   then union(parse($1), quantify(random($2), $3.to_sym))
-      when /(.*)\[:(\w+):\]\{(\d+)\,(\d+)\}$/       then union(parse($1), quantify(random($2), ($3.to_i)..($4.to_i)))
-      when /(.*)\[:(\w+):\]\{(\d+)\}$/              then union(parse($1), quantify(random($2), $3.to_i))
-      when /(.*)\[:(\w+):\]$/                       then union(parse($1), random($2))
-      when /(.*)\\([wsdc])(\*|\*\?|\+|\+\?|\?)$/    then union(parse($1), quantify(random($2), $3.to_sym))
-      when /(.*)\\([wsdc])\{(\d+)\,(\d+)\}$/        then union(parse($1), quantify(random($2), ($3.to_i)..($4.to_i)))
-      when /(.*)\\([wsdc])\{(\d+)\}$/               then union(parse($1), quantify(random($2), $3.to_i))
-      when /(.*)\\([wsdc])$/                        then union(parse($1), random($2))
-      when /\((.*)\)(\*|\*\?|\+|\+\?|\?)$/          then quantify(parse($1), $2.to_sym)
-      when /\((.*)\)\{(\d+)\,(\d+)\}$/              then quantify(parse($1), ($2.to_i)..($3.to_i))
-      when /\((.*)\)\{(\d+)\}$/                     then quantify(parse($1), $3.to_i)
-      when /(.*)(.|\s)(\*|\*\?|\+|\+\?|\?)$/        then union(parse($1), quantify(literal($2), $3.to_sym))
-      when /(.*)(.|\s)\{(\d+)\,(\d+)\}$/            then union(parse($1), quantify(literal($2), ($3.to_i)..($4.to_i)))
-      when /(.*)(.|\s)\{(\d+)\}$/                   then union(parse($1), quantify(literal($2), $3.to_i))
-      when /(.*)\\([.\/])(\*|\*\?|\+|\+\?|\?)$/     then union(parse($1), quantify(literal($2), $3.to_sym))
-      when /(.*)\\([.\/])\{(\d+)\,(\d+)\}$/         then union(parse($1), quantify(literal($2), ($3.to_i)..($4.to_i)))
-      when /(.*)\\([.\/])\{(\d+)\}$/                then union(parse($1), quantify(literal($2), $3.to_i))
-      when /(.*)\\([.\/])$/                         then union(parse($1), literal($2))
-      when /(.*)(.|\s)$/                            then union(parse($1), literal($2))
-      else nil
+      when /^[^()]*$/     then quantify_rhs(parse(source), multiplicity)    #implied union: /...+/
+      when /^(\(.*\))$/   then quantify(parse(source), multiplicity)        #group: /(...)?/
+      when /^(.*\))$/     then quantify_rhs(parse(source), multiplicity)    #implied union: /...(...)?/
+      when /^(.*[^)]+)$/  then quantify_rhs(parse(source), multiplicity)    #implied union: /...(...)...?/
+      else quantify(parse(source), multiplicity)
       end
     end
 
     class << self
       alias_method :[], :parse
+    end
+
+    def self.balanced?(*args)
+      args.all? {|s| s.count('(') == s.count(')')}
+    end
+
+    def self.quantify_rhs(sexp, multiplicity)
+      case sexp.first
+      when :union
+        rhs = sexp.pop
+        sexp << quantify(rhs, multiplicity)
+      else
+        quantify(sexp, multiplicity)
+      end
     end
 
     def self.quantify(lhs, sym)

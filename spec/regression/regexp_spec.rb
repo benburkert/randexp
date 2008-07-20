@@ -43,6 +43,12 @@ describe "#{'*' * 80}\nRegression Specs:" do
     end
   end
 
+  it "/ab(c(def))/                    => 'abcdef'" do
+    100.times do
+      /ab(c(def))/.gen.should == 'abcdef'
+    end
+  end
+
   it "/(\\w+)/                         => /\\w+/" do
     100.times do
       /(\w+)/.gen.should =~ /\w+/
@@ -107,6 +113,18 @@ describe "#{'*' * 80}\nRegression Specs:" do
     end
   end
 
+  it "/abc(def)?hij/                  => /abc(def)?hij/" do
+    100.times do
+      /abc(def)?hij/.gen.should =~ /abc(def)?hij/
+    end
+  end
+
+  it "/ab(c(def))?h/                  => /ab(c(def))?h/" do
+    100.times do
+      /ab(c(def))?h/.gen.should =~ /ab(c(def))?h/
+    end
+  end
+
   it "/(\\d{3}-)?\\d{3}-\\d{4}/          => /(\\d{3}-)?\\d{3}-\\d{4}/" do
     100.times do
       /(\d{3}-)?\d{3}-\d{4}/.gen.should =~ /(\d{3}-)?\d{3}-\d{4}/
@@ -131,9 +149,15 @@ describe "#{'*' * 80}\nRegression Specs:" do
     end
   end
 
-  it "/\\w+@\\w+\\.(com|org|net)/     => /\\w+@\\w+\\.(com|org|net)/.gen" do
+  it "/\\w+@\\w+\\.(com|org|net)/       => /\\w+@\\w+\\.(com|org|net)/.gen" do
     100.times do
       /\w+@\w+\.(com|org|net)/.gen.should =~ /\w+@\w+\.(com|org|net)/
+    end
+  end
+
+  it "/\\$\\d{2,3}\\.\\d{2}/              => /\\$\\d{2,3}\\.\\d{2}/" do
+    100.times do
+      /\$\d{2,3}\.\d{2}/.gen.should =~ /\$\d{2,3}\.\d{2}/
     end
   end
 end
