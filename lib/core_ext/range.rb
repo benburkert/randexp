@@ -3,7 +3,7 @@ class Range
     to_a.pick
   end
 
-  def of(&blk)
-    pick.of(&blk)
+  def of
+    pick.of { yield }
   end
 end
