@@ -1,5 +1,5 @@
 class Array
   def pick
-    at rand(size)
+    at Kernel.rand(size)
   end
 end
