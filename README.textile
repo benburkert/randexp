@@ -12,8 +12,7 @@ h2. REQUIREMENTS:
  
 h2. INSTALL:
  
-  $ gem sources -a http://gems.github.com/ (you only need to do this once)
-  $ gem install benburkert-randexp
+  $ sudo gem install randexp
 
 h2. USAGE:
 

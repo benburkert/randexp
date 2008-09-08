@@ -1,5 +1,4 @@
 == Todo list
 * add a ~/.randexp dir for configuration
-* clean up Randexp::Parser.parse
 * add [] syntax: /[aeiou]{4}/.gen
 * more generators for Randgen
