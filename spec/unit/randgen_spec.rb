@@ -70,6 +70,15 @@ describe Randgen do
         Randgen.word(:length => length).length.should == length
       end
     end
+
+    it "should not return a string that is not a word" do
+      strings = %w[foo's bars]
+      Dictionary.should_receive(:words).at_least(1).and_return strings
+
+      100.times do
+        Randgen.word.should_not == "foo's"
+      end
+    end
   end
 
   describe ".sentence" do

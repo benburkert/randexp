@@ -31,7 +31,11 @@ class Randgen
   end
 
   def self.word(options = {})
-    Dictionary.words(options).pick
+    begin
+      word = Dictionary.words(options).pick
+    end until word =~ /^\w+$/
+
+    word
   end
 
   def self.sentence(options = {})
