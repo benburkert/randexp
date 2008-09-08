@@ -160,4 +160,33 @@ describe "#{'*' * 80}\nRegression Specs:" do
       /\$\d{2,3}\.\d{2}/.gen.should =~ /\$\d{2,3}\.\d{2}/
     end
   end
+  
+  it "/[:first_name:]/.gen => /\w/" do
+    100.times do
+      /[:first_name:]/.gen.should =~ /\w/
+    end
+  end
+  
+  it "should generate a first name" do
+    100.times do
+      Randgen.first_name.should =~ /\w/
+    end
+  end
+  
+  it "should generate a male first name" do
+    male_list = RealName.list_male_first_names
+    100.times do
+      Randgen.first_name(:male).should =~ /\w/
+      male_list.include?(Randgen.first_name(:male)).should be_true
+    end
+  end
+  
+  it "should generate a female first name" do
+    female_list = RealName.list_female_first_names
+    100.times do
+      Randgen.first_name(:female).should =~ /\w/
+      female_list.include?(Randgen.first_name(:female)).should be_true
+    end
+  end
+  
 end

@@ -37,6 +37,10 @@ class Randgen
 
     word
   end
+  
+  def self.first_name(gender=nil)
+    RealName.first_name(gender)
+  end
 
   def self.sentence(options = {})
     ((options[:length] || WORDS_PER_SENTENCE.pick).of { word } * " ").capitalize
