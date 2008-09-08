@@ -189,4 +189,34 @@ describe "#{'*' * 80}\nRegression Specs:" do
     end
   end
   
+  it "should generate a last name" do
+    100.times do
+      Randgen.last_name.should =~ /\w/
+    end
+  end
+  
+  it "should generate a real name" do
+    100.times do
+      Randgen.name.should =~ /\w{2}/
+    end
+  end
+  
+  it "should generate a real male name" do
+    male_list = RealName.list_male_first_names
+    100.times do
+      name = Randgen.name(:male)
+      name.should =~ /\w{2}/
+      male_list.include?(name.split(' ').first).should be_true
+    end
+  end
+  
+  it "should generate a real female name" do
+    female_list = RealName.list_female_first_names
+    100.times do
+      name = Randgen.name(:female)
+      name.should =~ /\w{2}/
+      female_list.include?(name.split(' ').first).should be_true
+    end
+  end
+  
 end
