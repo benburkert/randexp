@@ -107,3 +107,60 @@ h3. Dictionary
 The Dictionary loads the local users' words file, allowing randomly generated words to be chosen from
 thousands of entries to the words file.  Words are mapped by their length to allow words to be randomly
 chosen based on size.
+
+h3. Real Names
+
+One can easily generate real names based on a wordlist.
+
+Random first name (male or female):
+<pre>
+<code>
+  >> Randgen.first_name
+      => "Malika"
+</code>
+</pre>
+
+Random first name, with a specific gender:
+<pre>
+<code>
+  >> Randgen.first_name(:male)
+      => "Rick"
+</code>
+</pre>
+
+Random last name:
+<pre>
+<code>
+  >> Randgen.last_name
+      => "Klocko"
+</code>
+</pre>
+
+Random name:
+<pre>
+<code>
+  >> Randgen.name
+    => "Rosendo Raynor"
+</code>
+</pre>
+
+alternative:
+<pre>
+<code>
+  >> /[:name:]/.gen
+      => "Marc Adams"
+</code>
+</pre>
+
+Random name, with a specific gender:
+<pre>
+<code>
+  >> Randgen.name(:female)
+      => "Tatiana Brakus"
+</code>
+</pre>
+
+
+h4. Contributors
+
+Matt Aimonetti (mattetti)
