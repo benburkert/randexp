@@ -160,4 +160,26 @@ describe "#{'*' * 80}\nRegression Specs:" do
       /\$\d{2,3}\.\d{2}/.gen.should =~ /\$\d{2,3}\.\d{2}/
     end
   end
+  
+  it "/[:first_name:]/                => /\\w+/" do
+    100.times do
+      /[:first_name:]/.gen.should =~ /\w+/
+    end
+  end
+
+  it "/[:last_name:]/                 => /\\w+/" do
+    /[:last_name:]/.gen.should =~ /\w+/
+  end
+
+  it "/[:name:]/                      => /\\w+ \\w+/" do
+    /[:name:]/.gen.should =~ /\w+ \w+/
+  end
+
+  it "/[:last_name:]{5,10}/           => /\\w{5,10}/" do
+    /[:last_name:]{5,10}/.gen.should =~ /\w{5,10}/
+  end
+
+  it "/[:first_name:]{5,10}/          => /\\w{5,10}/" do
+    /[:first_name:]{5,10}/.gen.should =~ /\w{5,10}/
+  end
 end

@@ -37,6 +37,22 @@ class Randgen
 
     word
   end
+  
+  def self.first_name(options = {})
+    RealName.first_names(options).pick
+  end
+  
+  def self.surname(options = {})
+    RealName.surnames(options).pick
+  end
+
+  class << self
+    alias_method :last_name, :surname
+  end
+  
+  def self.name(options = {})
+    "#{first_name(options)} #{surname(options)}"
+  end
 
   def self.sentence(options = {})
     ((options[:length] || WORDS_PER_SENTENCE.pick).of { word } * " ").capitalize
