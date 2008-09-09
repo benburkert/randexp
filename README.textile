@@ -123,8 +123,16 @@ Random first name (male or female):
 Random first name, with a specific gender:
 <pre>
 <code>
-  >> Randgen.first_name(:male)
+  >> Randgen.first_name(:gender => :male)
       => "Rick"
+</code>
+</pre>
+
+Random first name, with a specific gender & length:
+<pre>
+<code>
+  >> Randgen.first_name(:gender => :male, :length => 10)
+      => "Kristopher"
 </code>
 </pre>
 
@@ -155,7 +163,7 @@ alternative:
 Random name, with a specific gender:
 <pre>
 <code>
-  >> Randgen.name(:female)
+  >> Randgen.name(:gender => :female)
       => "Tatiana Brakus"
 </code>
 </pre>
