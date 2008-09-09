@@ -3,33 +3,35 @@ require dir + '/female_names'
 require dir + '/male_names'
 
 class RealName
-  
-  def self.first_name(gender=nil)
-    case gender.to_s
-    when /^male/i
-      self.random_male_first_name
-    when /^female/i
-      self.random_female_first_name
+  def self.load_surnames
+    dir = File.dirname(__FILE__)
+    if File.exists?("#{dir}/../../wordlists/surnames")
+      File.read("#{dir}/../../wordlists/surnames").split
     else
-      self.send("random_#{['male', 'female'][rand(2)]}_first_name")
+      raise "words file not found"
     end
   end
-  
-  def self.last_name
-    @last_names[rand(@last_names.length)]
-  end
-  
-  def self.name(gender=nil)
-    case gender.to_s
-    when /^male/i
-      "#{self.random_male_first_name} #{self.last_name}"
-    when /^female/i
-      "#{self.random_female_first_name} #{self.last_name}"
+
+  def self.surnames(options = {})
+    if options.has_key?(:length)
+      surnames_by_length[options[:length]]
     else
-      %Q{#{self.send("random_#{['male', 'female'][rand(2)]}_first_name")} #{self.last_name}}
+      @@surnames ||= load_surnames
     end
   end
-  
-  @last_names = %w(Abbott Abernathy Abshire Adams Aimonetti Altenwerth Anderson Ankunding Armstrong Auer Aufderhar Bahringer Bailey Balistreri Barrows Bartell Bartoletti Barton Bashirian Batz Bauch Baumbach Bayer Beahan Beatty Bechtelar Becker Bednar Beer Beier Berge Bergnaum Bergstrom Bernhard Bernier Bins Blanda Blick Block Bode Boehm Bogan Bogisich Borer Bosco Botsford Boyer Boyle Bradtke Brakus Braun Breitenberg Brekke Brown Bruen Buckridge Carroll Carter Cartwright Casper Cassin Champlin Christiansen Cole Collier Collins Conn Connelly Conroy Considine Corkery Cormier Corwin Cremin Crist Crona Cronin Crooks Cruickshank Cummerata Cummings Dach D'Amore Daniel Dare Daugherty Davis Deckow Denesik Dibbert Dickens Dicki Dickinson Dietrich Donnelly Dooley Douglas Doyle DuBuque Durgan Ebert Effertz Eichmann Emard Emmerich Erdman Ernser Fadel Fahey Farrell Fay Feeney Feest Feil Ferry Fisher Flatley Frami Franecki Friesen Fritsch Funk Gaylord Gerhold Gerlach Gibson Gislason Gleason Gleichner Glover Goldner Goodwin Gorczany Gottlieb Goyette Grady Graham Grant Green Greenfelder Greenholt Grimes Gulgowski Gusikowski Gutkowski Gutmann Haag Hackett Hagenes Hahn Haley Halvorson Hamill Hammes Hand Hane Hansen Harber Harris Hartmann Harvey Hauck Hayes Heaney Heathcote Hegmann Heidenreich Heller Herman Hermann Hermiston Herzog Hessel Hettinger Hickle Hilll Hills Hilpert Hintz Hirthe Hodkiewicz Hoeger Homenick Hoppe Howe Howell Hudson Huel Huels Hyatt Jacobi Jacobs Jacobson Jakubowski Jaskolski Jast Jenkins Jerde Jewess Johns Johnson Johnston Jones Kassulke Kautzer Keebler Keeling Kemmer Kerluke Kertzmann Kessler Kiehn Kihn Kilback King Kirlin Klein Kling Klocko Koch Koelpin Koepp Kohler Konopelski Koss Kovacek Kozey Krajcik Kreiger Kris Kshlerin Kub Kuhic Kuhlman Kuhn Kulas Kunde Kunze Kuphal Kutch Kuvalis Labadie Lakin Lang Langosh Langworth Larkin Larson Leannon Lebsack Ledner Leffler Legros Lehner Lemke Lesch Leuschke Lind Lindgren Littel Little Lockman Lowe Lubowitz Lueilwitz Luettgen Lynch Macejkovic Maggio Mann Mante Marks Marquardt Marvin Mayer Mayert McClure McCullough McDermott McGlynn McKenzie McLaughlin Medhurst Mertz Metz Miller Mills Mitchell Moen Mohr Monahan Moore Morar Morissette Mosciski Mraz Mueller Muller Murazik Murphy Murray Nader Nicolas Nienow Nikolaus Nitzsche Nolan Oberbrunner O'Connell O'Conner O'Hara O'Keefe O'Kon Okuneva Olson Ondricka O'Reilly Orn Ortiz Osinski Pacocha Padberg Pagac Parisian Parker Paucek Pfannerstill Pfeffer Pollich Pouros Powlowski Predovic Price Prohaska Prosacco Purdy Quigley Quitzon Rath Ratke Rau Raynor Reichel Reichert Reilly Reinger Rempel Renner Reynolds Rice Rippin Ritchie Robel Roberts Rodriguez Rogahn Rohan Rolfson Romaguera Roob Rosenbaum Rowe Ruecker Runolfsdottir Runolfsson Runte Russel Rutherford Ryan Sanford Satterfield Sauer Sawayn Schaden Schaefer Schamberger Schiller Schimmel Schinner Schmeler Schmidt Schmitt Schneider Schoen Schowalter Schroeder Schulist Schultz Schumm Schuppe Schuster Senger Shanahan Shields Simonis Sipes Skiles Smith Smitham Spencer Spinka Sporer Stamm Stanton Stark Stehr Steuber Stiedemann Stokes Stoltenberg Stracke Streich Stroman Strosin Swaniawski Swift Terry Thiel Thompson Tillman Torp Torphy Towne Toy Trantow Tremblay Treutel Tromp Turcotte Turner Ullrich Upton Vandervort Veum Volkman Von VonRueden Waelchi Walker Walsh Walter Ward Waters Watsica Weber Wehner Weimann Weissnat Welch West White Wiegand Wilderman Wilkinson Will Williamson Willms Windler Wintheiser Wisoky Wisozk Witting Wiza Wolf Wolff Wuckert Wunsch Wyman Yost Yundt Zboncak Zemlak Ziemann Zieme Zulauf)
-  
+
+  def self.surnames_by_length
+    @@surnames_by_length ||= surnames.inject({}) {|h, w| (h[w.size] ||= []) << w; h }
+  end
+
+  def self.first_names(options)
+    case options[:gender].to_s
+    when /^male/i
+      male_first_names(options)
+    when /^female/i
+      female_first_names(options)
+    else
+      [male_first_names(options), female_first_names(options)].pick
+    end
+  end
 end

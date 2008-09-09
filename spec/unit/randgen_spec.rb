@@ -81,6 +81,48 @@ describe Randgen do
     end
   end
 
+  describe ".first_name" do
+    it "should pick a word from the female names list if the gender option is female" do
+      100.times do
+        female_name = Randgen.first_name(:gender => :female)
+        RealName.female_first_names.should include(female_name)
+      end
+    end
+
+    it "should pick a word from the male names list if the gender option is male" do
+      100.times do
+        male_name = Randgen.first_name(:gender => :male)
+        RealName.male_first_names.should include(male_name)
+      end
+    end
+
+    it "should pick a word from the male names list with the same length in the options" do
+      100.times do
+        length = (3..10).pick
+        male_name = Randgen.first_name(:length => length)
+        (RealName.female_first_names + RealName.male_first_names).should include(male_name)
+      end
+    end
+  end
+
+  describe ".last_name" do
+    it "should pick a word from the last names list with the same length in the options" do
+      100.times do
+        length = (3..10).pick
+        last_name = Randgen.last_name(:length => length)
+        RealName.surnames.should include(last_name)
+      end
+    end
+  end
+
+  describe ".name" do
+    it "should be two words long" do
+      100.times do
+        Randgen.name.should =~ /\w+ \w+/
+      end
+    end
+  end
+
   describe ".sentence" do
     it "should be capitalized" do
       10.times do
@@ -114,6 +156,58 @@ describe Randgen do
       100.times do
         Randgen.phone_number(:length => 10) =~ /\d{3}-\d{3}-\d{4}/
       end
+    end
+  end
+
+  it "should generate a first name" do
+    100.times do
+      Randgen.first_name.should =~ /\w/
+    end
+  end
+  
+  it "should generate a male first name" do
+    male_list = RealName.male_first_names
+    100.times do
+      Randgen.first_name(:gender => :male).should =~ /\w/
+      male_list.include?(Randgen.first_name(:gender => :male)).should be_true
+    end
+  end
+  
+  it "should generate a female first name" do
+    female_list = RealName.female_first_names
+    100.times do
+      Randgen.first_name(:gender => :female).should =~ /\w/
+      female_list.include?(Randgen.first_name(:gender => :female)).should be_true
+    end
+  end
+  
+  it "should generate a last name" do
+    100.times do
+      Randgen.last_name.should =~ /\w/
+    end
+  end
+  
+  it "should generate a real name" do
+    100.times do
+      Randgen.name.should =~ /\w{2}/
+    end
+  end
+  
+  it "should generate a real male name" do
+    male_list = RealName.male_first_names
+    100.times do
+      name = Randgen.name(:gender => :male)
+      name.should =~ /\w{2}/
+      male_list.include?(name.split(' ').first).should be_true
+    end
+  end
+  
+  it "should generate a real female name" do
+    female_list = RealName.female_first_names
+    100.times do
+      name = Randgen.name(:gender => :female)
+      name.should =~ /\w{2}/
+      female_list.include?(name.split(' ').first).should be_true
     end
   end
 end

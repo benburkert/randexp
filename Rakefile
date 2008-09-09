@@ -13,7 +13,7 @@ EMAIL = "ben@benburkert.com"
 HOMEPAGE = "http://github.com/benburkert/randexp"
 TITLE = "Randexp Gem"
 SUMMARY = "Library for generating random strings."
-FILES = %w(LICENSE README README Rakefile TODO CHANGELOG) + Dir.glob("{lib,spec}/**/*")
+FILES = %w(LICENSE README README Rakefile TODO CHANGELOG) + Dir.glob("{lib,spec}/**/*") + Dir.glob("wordlists/**/*")
 RDOC_FILES = %w(LICENSE README README Rakefile TODO CHANGELOG) + Dir.glob("lib/**/*")
 
 RUBYFORGE_USER = "benburkert"

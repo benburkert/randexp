@@ -38,16 +38,20 @@ class Randgen
     word
   end
   
-  def self.first_name(gender=nil)
-    RealName.first_name(gender)
+  def self.first_name(options = {})
+    RealName.first_names(options).pick
   end
   
-  def self.last_name(options = {})
-    RealName.last_name
+  def self.surname(options = {})
+    RealName.surnames(options).pick
+  end
+
+  class << self
+    alias_method :last_name, :surname
   end
   
-  def self.name(gender=nil)
-    RealName.name(gender)
+  def self.name(options = {})
+    "#{first_name(options)} #{surname(options)}"
   end
 
   def self.sentence(options = {})
