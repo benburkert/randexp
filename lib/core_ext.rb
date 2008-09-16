@@ -1,4 +1,3 @@
-require 'core_ext/array'
-require 'core_ext/integer'
-require 'core_ext/range'
-require 'core_ext/regexp'
+%w[array integer range regexp].each do |filename|
+  require File.join(File.dirname(__FILE__), 'core_ext', filename)
+end
