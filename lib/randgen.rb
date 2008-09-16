@@ -32,7 +32,7 @@ class Randgen
 
   def self.word(options = {})
     begin
-      word = Dictionary.words(options).pick
+      word = Randexp::Dictionary.words(options).pick
     end until word =~ /^\w+$/
 
     word

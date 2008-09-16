@@ -1,4 +1,4 @@
-class Dictionary
+class Randexp::Dictionary
   def self.load_dictionary
     if File.exists?("/usr/share/dict/words")
       File.read("/usr/share/dict/words").split

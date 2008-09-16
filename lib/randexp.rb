@@ -14,6 +14,6 @@ dir = File.dirname(__FILE__)
 require dir + '/core_ext'
 require dir + '/randexp/parser'
 require dir + '/randexp/reducer'
+require dir + '/randexp/dictionary'
 require dir + '/randgen'
-require dir + '/dictionary'
 require dir + '/wordlists/real_name'

@@ -60,7 +60,7 @@ describe Randgen do
   describe ".word" do
     it "should pick an entry from Dictionary" do
       10.times do
-        Dictionary.words.should include(Randgen.word)
+        Randexp::Dictionary.words.should include(Randgen.word)
       end
     end
 
@@ -73,7 +73,7 @@ describe Randgen do
 
     it "should not return a string that is not a word" do
       strings = %w[foo's bars]
-      Dictionary.should_receive(:words).at_least(1).and_return strings
+      Randexp::Dictionary.should_receive(:words).at_least(1).and_return strings
 
       100.times do
         Randgen.word.should_not == "foo's"
