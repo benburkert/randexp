@@ -172,3 +172,5 @@ Random name, with a specific gender:
 h4. Contributors
 
 Matt Aimonetti (mattetti)
+Gerrit Kaiser (gerrit)
+Mike Vincent (shame)
