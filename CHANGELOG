@@ -1,3 +1,7 @@
+== 0.1.4 "Wally Wisoky" 2008-10-08
+* Added realistic name generation (Matt Aimonetti)
+* Fixed loadpath issues (Gerrit Kaiser)
+
 == 0.1.3 "Oological" 2008-07-08
 * Randgen.word should not return a string that does not match /^\w+$/
 
