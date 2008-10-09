@@ -10,10 +10,12 @@ class Randexp
   end
 end
 
-dir = File.dirname(__FILE__)
+dir = File.dirname(__FILE__) + '/randexp'
 require dir + '/core_ext'
-require dir + '/randexp/parser'
-require dir + '/randexp/reducer'
-require dir + '/randexp/dictionary'
+require dir + '/dictionary'
+require dir + '/parser'
 require dir + '/randgen'
+require dir + '/reducer'
+require dir + '/wordlists/female_names'
+require dir + '/wordlists/male_names'
 require dir + '/wordlists/real_name'

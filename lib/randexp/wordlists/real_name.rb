@@ -1,12 +1,8 @@
-dir = File.dirname(__FILE__)
-require dir + '/female_names'
-require dir + '/male_names'
-
 class RealName
   def self.load_surnames
     dir = File.dirname(__FILE__)
-    if File.exists?("#{dir}/../../wordlists/surnames")
-      File.read("#{dir}/../../wordlists/surnames").split
+    if File.exists?("#{dir}/../../../wordlists/surnames")
+      File.read("#{dir}/../../../wordlists/surnames").split
     else
       raise "words file not found"
     end
