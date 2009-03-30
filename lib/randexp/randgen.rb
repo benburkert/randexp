@@ -33,6 +33,9 @@ class Randgen
   def self.word(options = {})
     begin
       word = Randexp::Dictionary.words(options).pick
+    rescue
+      word = ''
+      options[:length].times { |iterator| word += alpha_numeric }
     end until word =~ /^\w+$/
 
     word

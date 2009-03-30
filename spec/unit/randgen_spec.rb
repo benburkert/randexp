@@ -58,6 +58,9 @@ describe Randgen do
   end
 
   describe ".word" do
+    it "should handle generating long strings" do
+      Randgen.word(:length => 64).length.should == 64
+    end
     it "should pick an entry from Dictionary" do
       10.times do
         Randexp::Dictionary.words.should include(Randgen.word)
