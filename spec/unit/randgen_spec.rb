@@ -123,6 +123,26 @@ describe Randgen do
     end
   end
 
+  describe ".email" do
+    it "should pick a local-part from the dictionnary" do
+      100.times do
+        Randexp::Dictionary.words.should include(Randgen.email[/^(\w+)@/, 1])
+      end
+    end
+
+    it "should use the domain option paramter" do
+      100.times do
+        Randgen.email(:domain => 'foobar.com')[/@((?:\w|\.)+)$/, 1].should == 'foobar.com'
+      end
+    end
+
+    it "should pick a subdomain of example.org by default" do
+      100.times do
+        Randexp::Dictionary.words.should include(Randgen.email[/@(\w+)\.example\.org$/, 1])
+      end
+    end
+  end
+
   describe ".sentence" do
     it "should be capitalized" do
       10.times do
