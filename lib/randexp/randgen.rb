@@ -1,7 +1,7 @@
 class Randgen
   WORDS_PER_SENTENCE = 3..20
   SENTENCES_PER_PARAGRAPH = 3..8
-  
+
   def self.bool(options = {})
     ['true', 'false'].pick
   end
@@ -40,11 +40,11 @@ class Randgen
 
     word
   end
-  
+
   def self.first_name(options = {})
     RealName.first_names(options).pick
   end
-  
+
   def self.surname(options = {})
     RealName.surnames(options).pick
   end
@@ -52,7 +52,7 @@ class Randgen
   class << self
     alias_method :last_name, :surname
   end
-  
+
   def self.name(options = {})
     "#{first_name(options)} #{surname(options)}"
   end
@@ -70,7 +70,7 @@ class Randgen
     ((options[:length] || SENTENCES_PER_PARAGRAPH.pick).of { sentence } * ".  ") + "."
   end
 
-  def self.phone_number(options = {})    
+  def self.phone_number(options = {})
     case options[:length]
     when 7  then  /\d{3}-\d{4}/.gen
     when 10 then  /\d{3}-\d{3}-\d{4}/.gen

@@ -187,7 +187,7 @@ describe Randgen do
       Randgen.first_name.should =~ /\w/
     end
   end
-  
+
   it "should generate a male first name" do
     male_list = RealName.male_first_names
     100.times do
@@ -195,7 +195,7 @@ describe Randgen do
       male_list.include?(Randgen.first_name(:gender => :male)).should be_true
     end
   end
-  
+
   it "should generate a female first name" do
     female_list = RealName.female_first_names
     100.times do
@@ -203,19 +203,19 @@ describe Randgen do
       female_list.include?(Randgen.first_name(:gender => :female)).should be_true
     end
   end
-  
+
   it "should generate a last name" do
     100.times do
       Randgen.last_name.should =~ /\w/
     end
   end
-  
+
   it "should generate a real name" do
     100.times do
       Randgen.name.should =~ /\w{2}/
     end
   end
-  
+
   it "should generate a real male name" do
     male_list = RealName.male_first_names
     100.times do
@@ -224,7 +224,7 @@ describe Randgen do
       male_list.include?(name.split(' ').first).should be_true
     end
   end
-  
+
   it "should generate a real female name" do
     female_list = RealName.female_first_names
     100.times do
