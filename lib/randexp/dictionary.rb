@@ -10,8 +10,7 @@ class Randexp::Dictionary
   end
 
   def self.words(options = {})
-    case
-    when options.has_key?(:length)
+    if options.has_key?(:length)
       words_by_length[options[:length]]
     else
       @@words ||= load_dictionary
@@ -19,6 +18,9 @@ class Randexp::Dictionary
   end
 
   def self.words_by_length
-    @@words_by_length ||= words.inject({}) {|h, w| (h[w.size] ||= []) << w; h }
+    @@words_by_length ||= begin
+      hash = Hash.new {|h,k| h[k] = [] }
+      words.inject(hash) {|h, w| h[w.size] << w; h }
+    end
   end
 end
