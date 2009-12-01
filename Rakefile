@@ -1,9 +1,9 @@
-require 'rubygems'
 require 'rake/gempackagetask'
 require 'rubygems/specification'
 require 'date'
 require "spec/rake/spectask"
 require 'rake/rdoctask'
+require 'bundler'
 
 PROJECT_NAME = "randexp"
 GEM = "randexp"
@@ -17,6 +17,8 @@ FILES = %w(LICENSE README README Rakefile TODO CHANGELOG) + Dir.glob("{lib,spec}
 RDOC_FILES = %w(LICENSE README README Rakefile TODO CHANGELOG) + Dir.glob("lib/**/*")
 
 RUBYFORGE_USER = "benburkert"
+
+task :default => :specs
 
 spec = Gem::Specification.new do |s|
   s.name = GEM
@@ -33,6 +35,13 @@ spec = Gem::Specification.new do |s|
   s.require_path = 'lib'
   s.autorequire = GEM
   s.files = FILES
+
+  manifest = Bundler::Environment.load(File.dirname(__FILE__) + '/Gemfile')
+  manifest.dependencies.each do |d|
+    next unless d.only && d.only.include?('release')
+    s.add_dependency(d.name, d.version)
+  end
+
 end
 
 Rake::GemPackageTask.new(spec) do |package|

@@ -1,4 +1,6 @@
 coverage/*
 pkg/*
 rdoc/*
+gbin
+vendor
 

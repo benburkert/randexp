@@ -1,5 +1,4 @@
-require 'rubygems'
-require 'spec'
+Bundler.require_env(:test)
 $LOAD_PATH.unshift File.join(File.dirname(__FILE__), "..", "lib")
 
 require 'randexp'
