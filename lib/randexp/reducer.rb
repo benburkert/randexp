@@ -88,7 +88,7 @@ class Randexp
     end
 
     def self.randgen(args, quantity)
-      method_name = *args
+      method_name, _ = *args
       case quantity
       when :'?'       then ['', Randgen.send(method_name, :length => 1)].pick
       when :+, :'+?'  then Randgen.send(method_name)
