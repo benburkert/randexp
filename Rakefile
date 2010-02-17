@@ -7,7 +7,7 @@ require 'bundler'
 
 PROJECT_NAME = "randexp"
 GEM = "randexp"
-GEM_VERSION = "0.1.4"
+GEM_VERSION = "0.1.5"
 AUTHOR = "Ben Burkert"
 EMAIL = "ben@benburkert.com"
 HOMEPAGE = "http://github.com/benburkert/randexp"
