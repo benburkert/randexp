@@ -1,12 +1,11 @@
-bin_path "gbin"
-disable_system_gems
+source "http://gemcutter.org"
 
-only :release do
-  gem 'ParseTree',           :require_as => [ ]
+group :runtime do
+  gem 'ParseTree'
 end
 
-only :test do
-  gem 'rspec',               :require_as => 'spec'
+group :test do
+  gem 'rspec'
   gem 'rake'
   gem 'bundler'
   gem 'rcov'

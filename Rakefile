@@ -36,10 +36,10 @@ spec = Gem::Specification.new do |s|
   s.autorequire = GEM
   s.files = FILES
 
-  manifest = Bundler::Environment.load(File.dirname(__FILE__) + '/Gemfile')
+  manifest = Bundler::Definition.from_gemfile('Gemfile')
   manifest.dependencies.each do |d|
-    next unless d.only && d.only.include?('release')
-    s.add_dependency(d.name, d.version)
+    next unless d.groups.include?(:runtime)
+    s.add_dependency(d.name, d.version_requirements.to_s)
   end
 
 end
@@ -73,7 +73,7 @@ Spec::Rake::SpecTask.new("specs:unit") do |t|
   t.rcov_opts << '--sort' << 'coverage' << '--sort-reverse'
   t.rcov_opts << '--only-uncovered'
   t.rcov_opts << '--output coverage/unit'
-  
+
 end
 
 desc "Run all regression specs"
