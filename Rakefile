@@ -35,13 +35,6 @@ spec = Gem::Specification.new do |s|
   s.require_path = 'lib'
   s.autorequire = GEM
   s.files = FILES
-
-  manifest = Bundler::Definition.from_gemfile('Gemfile')
-  manifest.dependencies.each do |d|
-    next unless d.groups.include?(:runtime)
-    s.add_dependency(d.name, d.version_requirements.to_s)
-  end
-
 end
 
 Rake::GemPackageTask.new(spec) do |package|
