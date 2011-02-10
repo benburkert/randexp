@@ -3,4 +3,5 @@ pkg/*
 rdoc/*
 gbin
 vendor
-
+.bundle
+Gemfile.lock
