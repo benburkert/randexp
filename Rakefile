@@ -3,7 +3,6 @@ require 'rubygems/specification'
 require 'date'
 require "spec/rake/spectask"
 require 'rake/rdoctask'
-require 'bundler'
 
 PROJECT_NAME = "randexp"
 GEM = "randexp"
