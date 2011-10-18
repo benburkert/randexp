@@ -6,7 +6,7 @@ require 'rake/rdoctask'
 
 PROJECT_NAME = "randexp"
 GEM = "randexp"
-GEM_VERSION = "0.1.5"
+GEM_VERSION = "0.1.6"
 AUTHOR = "Ben Burkert"
 EMAIL = "ben@benburkert.com"
 HOMEPAGE = "http://github.com/benburkert/randexp"
