@@ -1,11 +1,10 @@
 class Randexp::Dictionary
   def self.load_dictionary
-    if File.exists?("/usr/share/dict/words")
-      File.read("/usr/share/dict/words").split
-    elsif File.exists?("/usr/dict/words")
-      File.read("/usr/dict/words").split
+    dir = File.dirname(__FILE__)
+    if File.exists?("#{dir}/../../../wordlists/words")
+      File.read("#{dir}/../../../wordlists/words").split
     else
-      raise "Words file not found. Check if it is installed in (/usr/share/dict/words or /usr/dict/words) "
+      raise "words file not found"
     end
   end
 
