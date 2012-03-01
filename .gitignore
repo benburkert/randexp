@@ -5,3 +5,5 @@ gbin
 vendor
 .bundle
 Gemfile.lock
+.rvmrc
+
