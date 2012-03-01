@@ -125,6 +125,12 @@ describe "#{'*' * 80}\nRegression Specs:" do
     end
   end
 
+  it "/abc?/                          => ['ab', 'abc']" do
+    100.times do
+      ['ab', 'abc'].should include(/abc?/.gen)
+    end
+  end
+
   it "/(\\d{3}-)?\\d{3}-\\d{4}/          => /(\\d{3}-)?\\d{3}-\\d{4}/" do
     100.times do
       /(\d{3}-)?\d{3}-\d{4}/.gen.should =~ /(\d{3}-)?\d{3}-\d{4}/
@@ -160,7 +166,7 @@ describe "#{'*' * 80}\nRegression Specs:" do
       /\$\d{2,3}\.\d{2}/.gen.should =~ /\$\d{2,3}\.\d{2}/
     end
   end
-  
+
   it "/[:first_name:]/                => /\\w+/" do
     100.times do
       /[:first_name:]/.gen.should =~ /\w+/

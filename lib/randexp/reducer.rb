@@ -23,7 +23,7 @@ class Randexp
 
     def self.literal(cell, quantity = nil)
       case quantity
-      when :'?'         then ([''] + cell).pick * ''
+      when :'?'         then ([''] + cell).pick
       when :+, :'+?'    then raise "Sorry, \"#{cell * ''}+\" is too vague, try setting a range: \"#{cell * ''}{1,3}\""
       when :*, :'*?'    then raise "Sorry, \"#{cell * ''}*\" is too vague, try setting a range: \"#{cell * ''}{0,3}\""
       when Range        then quantity.pick.of { cell * '' } * ''
