@@ -11,6 +11,7 @@ class Randexp
 end
 
 dir = File.dirname(__FILE__) + '/randexp'
+require dir + '/version'
 require dir + '/core_ext'
 require dir + '/dictionary'
 require dir + '/parser'
