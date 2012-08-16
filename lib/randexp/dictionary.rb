@@ -7,7 +7,7 @@ class Randexp::Dictionary
     elsif File.exists?(File.expand_path('~/.dict/words'))
       File.read(File.expand_path('~/.dict/words')).split
     else
-      raise "Words file not found. Check if it is installed in (/usr/share/dict/words or /usr/dict/words) "
+      raise "Words file not found. Check if it is installed in (/usr/share/dict/words, /usr/dict/words or ~/.dict/words) "
     end
   end
 
