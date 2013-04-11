@@ -17,7 +17,9 @@ class RealName
   end
 
   def self.surnames_by_length
-    @@surnames_by_length ||= surnames.inject({}) {|h, w| (h[w.size] ||= []) << w; h }
+    @@surnames_by_length ||= begin
+      surnames.inject(Hash.new {|h,k| h[k] = [] }) {|h, w| (h[w.size] ||= []) << w; h }
+    end
   end
 
   def self.first_names(options)

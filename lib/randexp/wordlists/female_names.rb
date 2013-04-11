@@ -18,6 +18,8 @@ class RealName
   end
 
   def self.female_first_names_by_length
-    @@female_first_names_by_length ||= female_first_names.inject({}) {|h, w| (h[w.size] ||= []) << w; h }
+    @@female_first_names_by_length ||= begin
+      female_first_names.inject(Hash.new {|h,k| h[k] = [] }) {|h, w| (h[w.size] ||= []) << w; h }
+    end
   end
 end

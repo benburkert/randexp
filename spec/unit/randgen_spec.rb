@@ -106,6 +106,10 @@ describe Randgen do
         (RealName.female_first_names + RealName.male_first_names).should include(male_name)
       end
     end
+
+    it "returns nil if there is no name that matches the length option" do
+      Randgen.first_name(:length => 100).should be_nil
+    end
   end
 
   describe ".last_name" do
@@ -115,6 +119,10 @@ describe Randgen do
         last_name = Randgen.last_name(:length => length)
         RealName.surnames.should include(last_name)
       end
+    end
+
+    it "returns nil if there is no name that matches the length option" do
+      Randgen.last_name(:length => 100).should be_nil
     end
   end
 
