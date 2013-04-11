@@ -2,7 +2,6 @@ require 'rubygems/package_task'
 require 'rubygems/specification'
 require 'date'
 require 'rspec/core/rake_task'
-require 'rdoc/task'
 
 PROJECT_NAME = "randexp"
 GEM = "randexp"
@@ -14,8 +13,6 @@ TITLE = "Randexp Gem"
 SUMMARY = "Library for generating random strings."
 FILES = %w(LICENSE README README Rakefile TODO CHANGELOG) + Dir.glob("{lib,spec}/**/*") + Dir.glob("wordlists/**/*")
 RDOC_FILES = %w(LICENSE README README Rakefile TODO CHANGELOG) + Dir.glob("lib/**/*")
-
-RUBYFORGE_USER = "benburkert"
 
 task :default => :specs
 
@@ -77,34 +74,3 @@ RSpec::Core::RakeTask.new("specs:regression") do |t|
 end
 
 task :specs => ['specs:unit', 'specs:regression']
-
-##############################################################################
-# Documentation
-##############################################################################
-task :doc => "doc:rerdoc"
-namespace :doc do
-
-  Rake::RDocTask.new do |rdoc|
-    rdoc.rdoc_files.add(RDOC_FILES)
-    rdoc.main = 'README'
-    rdoc.title = TITLE
-    rdoc.rdoc_dir = "rdoc"
-    rdoc.options << '--line-numbers' << '--inline-source'
-  end
-
-  desc "rdoc to rubyforge"
-  task :rubyforge => :doc do
-    sh %{chmod -R 755 rdoc}
-    sh %{/usr/bin/scp -r -p rdoc/* #{RUBYFORGE_USER}@rubyforge.org:/var/www/gforge-projects/#{PROJECT_NAME}/#{GEM}}
-  end
-end
-
-##############################################################################
-# release
-##############################################################################
-task :release => [:specs, :package, :doc] do
-  sh %{rubyforge add_release #{PROJECT_NAME} #{GEM} "#{GEM_VERSION}" pkg/#{GEM}-#{GEM_VERSION}.gem}
-  %w[zip tgz].each do |ext|
-    sh %{rubyforge add_file #{PROJECT_NAME} #{GEM} "#{GEM_VERSION}" pkg/#{GEM}-#{GEM_VERSION}.#{ext}}
-  end
-end
