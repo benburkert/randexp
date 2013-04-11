@@ -1,6 +1,7 @@
 $LOAD_PATH.unshift File.join(File.dirname(__FILE__), "..", "lib")
-require 'spec'
+
+require 'rspec'
 require 'randexp'
 
-Spec::Runner.configure do |config|
+RSpec::Runner.configure do |config|
 end

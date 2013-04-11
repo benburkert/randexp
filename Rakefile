@@ -1,8 +1,8 @@
-require 'rake/gempackagetask'
+require 'rubygems/package_task'
 require 'rubygems/specification'
 require 'date'
-require "spec/rake/spectask"
-require 'rake/rdoctask'
+require 'rspec/core/rake_task'
+require 'rdoc/task'
 
 PROJECT_NAME = "randexp"
 GEM = "randexp"
@@ -36,7 +36,7 @@ spec = Gem::Specification.new do |s|
   s.files = FILES
 end
 
-Rake::GemPackageTask.new(spec) do |package|
+Gem::PackageTask.new(spec) do |package|
   package.gem_spec = spec
   package.need_zip = true
   package.need_tar = true
@@ -58,22 +58,20 @@ end
 # rSpec & rcov
 ##############################################################################
 desc "Run all unit specs"
-Spec::Rake::SpecTask.new("specs:unit") do |t|
-  t.spec_opts = ["--format", "specdoc", "--colour"]
-  t.spec_files = Dir["spec/unit/**/*_spec.rb"].sort
-  t.rcov = true
-  t.rcov_opts << '--sort' << 'coverage' << '--sort-reverse'
+RSpec::Core::RakeTask.new("specs:unit") do |t|
+  t.rspec_opts = ["--format", "documentation", "--colour"]
+  t.pattern = "spec/unit/**/*_spec.rb"
+  t.rcov_opts = %w[--sort coverage --sort-reverse]
   t.rcov_opts << '--only-uncovered'
   t.rcov_opts << '--output coverage/unit'
 
 end
 
 desc "Run all regression specs"
-Spec::Rake::SpecTask.new("specs:regression") do |t|
-  t.spec_opts = ["--format", "specdoc", "--colour"]
-  t.spec_files = Dir["spec/regression/**/*_spec.rb"].sort
-  t.rcov = true
-  t.rcov_opts << '--sort' << 'coverage' << '--sort-reverse'
+RSpec::Core::RakeTask.new("specs:regression") do |t|
+  t.rspec_opts = ["--format", "documentation", "--colour"]
+  t.pattern = "spec/regression/**/*_spec.rb"
+  t.rcov_opts = %w[--sort coverage --sort-reverse]
   t.rcov_opts << '--only-uncovered'
   t.rcov_opts << '--output coverage/integration'
 end
