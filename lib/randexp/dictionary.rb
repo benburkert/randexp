@@ -1,9 +1,15 @@
 class Randexp::Dictionary
+  def self.file_paths
+    @dictionary_path ||= %w[/usr/share/dict/words /usr/dict/words]
+  end
+
+  def self.register(path)
+    file_paths.unshift(path)
+  end
+
   def self.load_dictionary
-    if File.exists?("/usr/share/dict/words")
-      File.read("/usr/share/dict/words").split
-    elsif File.exists?("/usr/dict/words")
-      File.read("/usr/dict/words").split
+    if path = file_paths.detect {|path| File.exists?(path) }
+      File.read(path).split
     else
       raise "Words file not found. Check if it is installed in (/usr/share/dict/words or /usr/dict/words) "
     end
